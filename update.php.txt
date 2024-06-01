@@ -1,0 +1,134 @@
+<?php
+session_start();
+
+
+
+
+
+$host="localhost";
+$user="root";
+$password="";
+$db="shopping_cart";
+
+$data=mysqli_connect($host,$user,$password,$db);
+
+
+if($_GET['product_id']){
+
+    $id=$_GET['product_id'];
+
+    $sql="SELECT * FROM cart_products WHERE id='$id'";
+
+
+
+    $result=mysqli_query($data,$sql);
+
+    $info=$result->fetch_assoc();
+
+    if(isset($_POST['update'])){
+
+        $name=$_POST['productname'];
+        $price=$_POST['productprice'];
+
+        $query="UPDATE cart_products SET productname='$name', productprice='$price' WHERE id='$id' ";
+
+        $end=mysqli_query($data,$query);
+        if($end){
+            header("location:view_products.php");
+        }
+    }
+
+}
+
+
+
+?>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashbaord</title>
+
+
+
+
+
+
+</head>
+<body>
+
+
+
+
+<div class="content">
+
+
+    <h1>Update values here: </h1>
+
+
+<div class="div-deg">
+    <form action="#" method="POST">
+
+    <div>
+        <label for="">Name: </label>
+        <input type="text" name="productname" value="<?php echo "{$info['productname']}"; ?>">
+
+    </div>
+    <div>
+        <label for="">Price: </label>
+        <input type="number" name="productprice" value="<?php echo "{$info['productprice']}"; ?>">
+        
+    </div>
+
+    <div>
+    <div>
+        <input type="submit" value="Update" name="update">
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </form>
+  
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
