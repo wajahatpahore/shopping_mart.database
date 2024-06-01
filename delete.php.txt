@@ -1,0 +1,57 @@
+<?php
+session_start();
+
+
+
+
+$host="localhost";
+$user="root";
+$password="";
+$db="shopping_cart";
+
+$data=mysqli_connect($host,$user,$password,$db);
+
+
+if($_GET['product_id']){
+
+    $id=$_GET['product_id'];
+
+    $sql="DELETE FROM cart_products WHERE id='$id'";
+    $result=mysqli_query($data,$sql);
+
+    if($result){
+        $_SESSION['message']='Delete of Products is successful';
+        header("location:view_products.php");
+    }
+    else{
+        echo "Unsuccessful";
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+?>
