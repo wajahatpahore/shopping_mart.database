@@ -1,0 +1,4 @@
+<?php
+$conn=mysqli_connect('localhost','root','','Shopping_Cart')or die("Connection Failed");
+
+?>
