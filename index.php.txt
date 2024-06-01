@@ -1,0 +1,103 @@
+<?php
+
+$host = "localhost";
+$user = "root";
+$password = "";
+$db = "shopping_cart"; 
+
+$data = mysqli_connect($host, $user, $password, $db);
+
+if($data){
+    echo "connection successful";
+}
+else{
+    echo" not connected";
+}
+
+
+
+if(isset($_POST['add_product'])){
+    // Escape special characters in input data to prevent SQL injection
+    $product_name = $_POST['name'];
+
+    $product_condition=$_POST['model'];
+   
+    $product_price = ($_POST['price']);
+    
+    // Construct the SQL query string
+    $sql = "INSERT INTO customer_products(name, model, price) VALUES('$product_name','$product_condition', '$product_price')";
+
+     $result=mysqli_query($data, $sql);
+    // Execute the SQL query and check if it was successful
+
+    if($result) {
+        // Alert the user and redirect to index.php if successful
+        echo "Product added successfully";
+        
+        exit(); // Ensure no further code is executed after redirection
+    } else {
+        // Output an error message if the query fails
+        echo "There is some error in inserting the product: " . mysqli_error($data);
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping_Cart</title>
+
+   
+
+    <!-- font awesome link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<?php include ('header.php'); ?>
+
+
+<!-- form section -->
+<div class="container">
+    <!-- message display -->
+    <?php
+if(isset($display_message)) {
+    echo " <div class='display_message'>;
+    <span>$display_message</span>
+    <i class='fas fa_times'onclick='this.parentElement.style.display=`none`';></i>
+</div>";
+}
+?>
+<!--view products-->
+
+
+   
+    <section>
+        <h3 class="heading">Add Products</h3>
+        <form action="add-products.php" class="add" method="POST">
+            <input type="text" name="productname" placeholder="Enter product name" class="input_fields" required>
+            <input type="number" min="0" name="productprice"  placeholder="Enter product price" class="input_fields" required>
+
+            <input type="submit" name="add" class="add" value="Add products">
+        </form>
+    </section>
+
+    <h2>Fill the form to sell your product: </h2>
+    <section>
+        <h3 class="heading">Add Products</h3>
+        <form action="#" method="POST">
+
+            <input type="text" name="name" placeholder="Enter product name" class="input_fields" required>
+            <input type="text" name="model" class="input_fields" placeholder="Model :" >
+            <input type="text" name="price"  placeholder="Enter product price" required>
+            
+            <input type="submit" name="add_product" class="add_product" value="Add product">
+        </form>
+    </section>
+</div>
+    
+</body>
+</html>
